@@ -1,10 +1,11 @@
 // ------------------------------------- Node --------------------------------------------------//
-var tkeys = require("./keys.js");
-var twitter = require('twitter');
+var keys = require("./keys.js");
+var Twitter = require('twitter');
 var request = require('request');
-var spotify = require('spotify');
+var Spotify = require('node-spotify-api');
+var fs = require("fs");
 var liriArgument = process.argv[2];
-
+var songName = process.argv[3];
 switch (liriArgument) {
     case "movie-this":
         movieThis();
@@ -15,14 +16,15 @@ switch (liriArgument) {
     case "spotify-this-song":
         spotifyThis();
         break;
+    case "do-what-it-says":
+        backStreet();
 };
 
 
 // ------------------------------------- Twitter --------------------------------------------------//
 
 function myTweets() {
-
-    var client = new twitter(tkeys);
+    var client = new Twitter(keys.twitterKeys);
 
     //parameters for twitter function.
     var params = {
@@ -69,43 +71,83 @@ function movieThis() {
     });
 };
 // ------------------------------------- Spotify --------------------------------------------------//
-function spotifyThis(songName) {
-    console.log("Is this shit working?");
+// var spotify = new Spotify(keys.spotifyKeys);
+// var getArtistNames = function(artist) {
+//     return artist.name;
+// };
 
+// function spotifyThis() {
+
+//     var spotify = new Spotify(keys.spotifyKeys);
+
+//     var getArtistNames = function(artist) {
+//     return artist.name;
+// };
+
+//     if (!songName) {
+//         songName = "The Sign";
+//     }
+//     spotify.search({ type: 'track', query: songName }, function(err, data) {
+//         if (err) {
+//             console.log('Error occurred: ' + err);
+//             return;
+//         }
+
+//         var songs = data.tracks.items;
+//         var data = []; //empty array to hold data
+
+//         for (var i = 0; i < songs.length; i++) {
+//             data.push({
+//                 'artist(s)': songs[0].artists.map(getArtistNames),
+//                 'song name: ': songs[0].name,
+//                 'preview song: ': songs[0].preview_url,
+//                 'album: ': songs[0].album.name,
+//             });
+//         }
+//         console.log(data);
+//     });
+// };
+
+
+function spotifyThis() {
+    var spotify = new Spotify(keys.spotifyKeys);
     var songName = process.argv[3];
     if (!songName) {
         songName = "The Sign";
-    };
+    }
 
     spotify.search({ type: "track", query: songName }, function(err, data) {
-       
+
         if (err) {
             console.log("There was an error:" + err);
             return;
-        } else {
-            console.log(
-                // "Artist: " + data.tracks.items[0].artists[0].name + "\n" +
-                "Song: " + data.tracks.items[0].name + "\n" +
-                "Album: " + data.tracks.items[0].album.name + "\n" +
-                "Preview Url: " + data.tracks.items[0].preview_url + "\n");
         }
+        console.log(
+            "=========================================================" + "\n" +
+            "Artist: " + data.tracks.items[0].artists[0].name + "\n" +
+            "Song: " + data.tracks.items[0].name + "\n" +
+            "Album: " + data.tracks.items[0].album.name + "\n" +
+            "Preview Url: " + data.tracks.items[0].preview_url + "\n" +
+            "=========================================================");
+
     });
 };
 
 
 //------------------------------------ Backstreets Back  ------------------------------------------//
-// Core node package for reading and writing files
-// var fs = require("fs");
 
+function backStreet() {
+    fs.readFile("random.txt", "utf8", function(err) {
 
-// fs.readFile("random.txt", "utf8", function(err) {
+            if (err) {
+                return console.log(err);
+            }
 
-//   // If the code experiences any errors it will log the error to the console.
-//   if (err) {
-//     return console.log(err);
-//   }
-
-//   // Otherwise, it will print: "movies.txt was updated!"
-//   console.log("movies.txt was updated!");
-
-// });
+            var things = data.split(',');
+            //pass this information into the spotify function and run the userSelection through to get the results.  this will automatically console.log the info and then append the info into the txt file
+            if (things[0] === songs) {
+                songName = things[1];
+                mySpotify(songName);
+            };
+    }
+});
