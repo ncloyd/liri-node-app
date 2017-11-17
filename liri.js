@@ -56,7 +56,7 @@ function movieThis() {
 
     // run a request to the OMDB API with the movie specified
     var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=40e9cece";
-    console.log(queryUrl);
+    // console.log(queryUrl);
 
     request(queryUrl, function(error, response, body) {
 
@@ -137,7 +137,7 @@ function spotifyThis() {
 //------------------------------------ Backstreets Back  ------------------------------------------//
 
 function backStreet() {
-    fs.readFile("random.txt", "utf8", function(err) {
+    fs.readFile("random.txt", "utf8", function(err, data) {
 
             if (err) {
                 return console.log(err);
@@ -145,9 +145,9 @@ function backStreet() {
 
             var things = data.split(',');
             //pass this information into the spotify function and run the userSelection through to get the results.  this will automatically console.log the info and then append the info into the txt file
-            if (things[0] === songs) {
+            if (things[0] === songName) {
                 songName = things[1];
                 mySpotify(songName);
-            };
-    }
-});
+            }
+    });
+};
