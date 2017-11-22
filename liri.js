@@ -137,17 +137,21 @@ function spotifyThis() {
 //------------------------------------ Backstreets Back  ------------------------------------------//
 
 function backStreet() {
-    fs.readFile("random.txt", "utf8", function(err, data) {
+    fs.readFile("random.txt", "utf8", function(error, data) {
 
-            if (err) {
-                return console.log(err);
-            }
+            if (!error) {
+                 backStreetResults = data.split(',');
+                 spotifyThis(backStreetResults[0], backStreetResults[1]);
+                
+            } else {
+                console.log("Error occured" + error);
 
-            var things = data.split(',');
+           
             //pass this information into the spotify function and run the userSelection through to get the results.  this will automatically console.log the info and then append the info into the txt file
             if (things[0] === songName) {
                 songName = things[1];
                 mySpotify(songName);
             }
+        }
     });
-};
+}
